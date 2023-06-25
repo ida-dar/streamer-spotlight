@@ -5,10 +5,10 @@ import { createAction } from '../reduxUtils/createAction';
 // actions
 export const setStreamers = (streamers: Streamer[]) => createAction(STREAMERS_ACTION_TYPES.FETCH_STREAMERS, streamers);
 
-export const addStreamer = (streamer: Streamer) => createAction(STREAMERS_ACTION_TYPES.ADD_STREAMER, streamer);
+export const addStreamer = (streamer: { name: string; platform: string; description: string; votes: number }) => createAction(STREAMERS_ACTION_TYPES.ADD_STREAMER, streamer);
 
 export const fetchStreamersStart = () => createAction(STREAMERS_ACTION_TYPES.FETCH_STREAMERS_START);
 
 export const fetchStreamersFail = (e: any) => createAction(STREAMERS_ACTION_TYPES.FETCH_STREAMERS_FAIL, e);
 
-export const voteForStreamer = (streamerId: string, vote: number) => createAction(STREAMERS_ACTION_TYPES.VOTE_FOR_STREAMER, { streamerId, vote });
+export const voteForStreamer = (streamer: Streamer) => createAction(STREAMERS_ACTION_TYPES.VOTE_FOR_STREAMER, streamer);

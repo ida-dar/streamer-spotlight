@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { AnyAction, Dispatch } from '@reduxjs/toolkit';
 import { StreamersState, STREAMERS_ACTION_TYPES } from '../actionTypes';
-import { fetchStreamersFail, fetchStreamersStart, setStreamers, addStreamer } from './streamersActions';
+import { fetchStreamersFail, fetchStreamersStart, setStreamers, addStreamer, voteForStreamer } from './streamersActions';
 import { API_URL } from '../reduxUtils/apiConfig';
 
 // state
@@ -41,6 +41,15 @@ export const postStreamer = (streamer: { name: string; platform: string; descrip
   }
 };
 
+export const postVoteForStreamer = (id: string) => async (dispatch: Dispatch) => {
+  try {
+    const resp = await axios.put(`${API_URL}/streamers/${id}/vote`);
+    dispatch(voteForStreamer(resp.data));
+  } catch (e) {
+    dispatch(fetchStreamersFail(e));
+  }
+};
+
 const reducer = (state = initialState, action = {} as AnyAction) => {
   switch (action.type) {
     case STREAMERS_ACTION_TYPES.FETCH_STREAMERS:
@@ -72,9 +81,11 @@ const reducer = (state = initialState, action = {} as AnyAction) => {
         },
       };
     case STREAMERS_ACTION_TYPES.VOTE_FOR_STREAMER:
+      const streamer = action.payload;
+      const idx = state.streamers.findIndex((el) => el._id === streamer._id);
       return {
         ...state,
-        displayType: action.payload,
+        streamers: state.streamers.map((item, index) => (index === idx ? streamer : item)),
       };
     default:
       return state;

@@ -8,10 +8,10 @@ interface Props {
 }
 
 const MainLayout = ({ children }: Props) => (
-  <div>
+  <main>
     <Header />
-    <Container>{children}</Container>
-  </div>
+    <Container maxWidth="lg">{children}</Container>
+  </main>
 );
 
 export default MainLayout;

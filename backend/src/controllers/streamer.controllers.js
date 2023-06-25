@@ -26,6 +26,8 @@ exports.getOneById = async (req, res) => {
 exports.postOne = async (req, res) => {
   const { name, platform, description, votes } = req.body;
 
+  console.log(req.body);
+
   try {
     const newStreamer = new Streamer({
       name,
@@ -33,10 +35,13 @@ exports.postOne = async (req, res) => {
       description,
       votes
     });
+
+    console.log(newStreamer);
     await newStreamer.save();
     res.json({ message: 'OK' });
   }
   catch(err) {
+    console.log(err);
     res.status(500).json({ message: err });
   }
 };
@@ -44,13 +49,15 @@ exports.postOne = async (req, res) => {
 // url: /streamers/:id/vote
 exports.putVoteById = async (req, res) => {
   try {
-    const { votes } = req.body;
     const streamer = await Streamer.findById(req.params.id);
+    console.log(streamer, req.params.id);
     if(streamer) {
+
       await Streamer.updateOne({ _id: req.params.id }, { $set: {
-        votes
+        votes: streamer.votes + 1
       }});
-      res.json(streamer);
+      const updated = await Streamer.findById(req.params.id);
+      res.json(updated);
     }
     else res.status(404).json({ message: 'Not found...' });
   }
