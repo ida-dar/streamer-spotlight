@@ -7,11 +7,11 @@ module.exports = {
     requireConfigFile: false,
     ecmaVersion: 2018,
     sourceType: 'module',
-    babelOptions: {
-      parserOpts: {
-        plugins: ['jsx']
-      }
-    }
+    // babelOptions: {
+    //   parserOpts: {
+    //     plugins: ['jsx']
+    //   }
+    // }
   },
   env: {
     browser: true,
