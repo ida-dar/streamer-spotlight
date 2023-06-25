@@ -1,5 +1,9 @@
-import React from 'react';
+import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
+// redux
+import { fetchStreamers } from './redux/streamers/streamersRedux';
+import { useAppDispatch } from './redux/reduxUtils/hooks';
 
 import { routes } from './utils/routes';
 
@@ -30,6 +34,12 @@ const routing: RoutesInterface[] = [
 ];
 
 const App = () => {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchStreamers());
+  }, [dispatch]);
+
   return (
     <BrowserRouter>
       <MainLayout>

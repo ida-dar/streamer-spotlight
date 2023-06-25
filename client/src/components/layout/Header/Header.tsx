@@ -3,15 +3,6 @@ import { AppBar, Box, Toolbar, IconButton, Typography, Menu, Container, Button, 
 import MenuIcon from '@mui/icons-material/Menu';
 import { routes } from '../../../utils/routes';
 
-interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  [x: string]: any;
-}
-
-// created btn component in order to add href and textalign props
-const Btn: React.FC<Props> = () => {
-  return <Button></Button>;
-};
-
 const Header = () => {
   const [anchorElNav, setAnchorElNav] = useState(null);
 
@@ -69,9 +60,7 @@ const Header = () => {
             >
               {Object.values(routes).map((page) => (
                 <MenuItem key={page.link} onClick={handleCloseNavMenu}>
-                  <Btn href={page.link} textAlign="center">
-                    {page.name}
-                  </Btn>
+                  <Button href={page.link}>{page.name}</Button>
                 </MenuItem>
               ))}
             </Menu>

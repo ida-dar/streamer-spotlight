@@ -28,8 +28,7 @@ module.exports = {
     'import/no-absolute-path': 0,
     'global-require': 0,
     'no-console': 'warn',
-    'indent': ['error', 2],
-    'quotes': ['error', 'single'],
+
     'no-useless-catch': 0,
     'lines-between-class-members': 0,
     'eol-last': 'error',
