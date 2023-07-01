@@ -10,8 +10,7 @@ import { routes } from './utils/routes';
 // routes
 import MainLayout from './components/layout/MainLayout/MainLayout';
 import Home from './components/views/Home/Home';
-import SubmissionView from './components/views/SubmissionView/SubmissionView';
-import StreamerRecord from './components/views/StreamerRecord/StreamerRecord';
+import StreamerRecords from './components/views/StreamersView/StreamersView';
 
 interface RoutesInterface {
   path: string;
@@ -24,12 +23,8 @@ const routing: RoutesInterface[] = [
     element: <Home />,
   },
   {
-    path: routes.SUBMISSION_FORM.link,
-    element: <SubmissionView />,
-  },
-  {
     path: routes.STREAMER_RECORDS.link,
-    element: <StreamerRecord />,
+    element: <StreamerRecords />,
   },
 ];
 

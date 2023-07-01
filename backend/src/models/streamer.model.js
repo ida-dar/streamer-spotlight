@@ -4,7 +4,8 @@ const streamerSchema = new mongoose.Schema({
   name: { type: String, required: true },
   platform: { type: String, required: true },
   description: { type: String, required: true },
-  votes: { type: Number, required: true },
+  upvotes: { type: Number, required: true },
+  downvotes: { type: Number, required: true },
 });
 
 module.exports = mongoose.model('Streamer', streamerSchema);

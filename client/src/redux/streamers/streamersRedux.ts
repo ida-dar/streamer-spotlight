@@ -27,23 +27,22 @@ export const fetchStreamers = () => async (dispatch: Dispatch) => {
 };
 
 export const postStreamer = (streamer: { name: string; platform: string; description: string }) => async (dispatch: Dispatch) => {
-  dispatch(fetchStreamersStart());
-
   try {
     const obj = {
       ...streamer,
-      votes: 0,
+      upvotes: 0,
+      downvotes: 0,
     };
     const resp = await axios.post(`${API_URL}/streamers`, obj);
-    dispatch(addStreamer(obj));
+    dispatch(addStreamer(resp.data.data));
   } catch (e) {
     dispatch(fetchStreamersFail(e));
   }
 };
 
-export const postVoteForStreamer = (id: string) => async (dispatch: Dispatch) => {
+export const postVoteForStreamer = (id: string, voteKind: string) => async (dispatch: Dispatch) => {
   try {
-    const resp = await axios.put(`${API_URL}/streamers/${id}/vote`);
+    const resp = await axios.put(`${API_URL}/streamers/${id}/vote`, { voteKind });
     dispatch(voteForStreamer(resp.data));
   } catch (e) {
     dispatch(fetchStreamersFail(e));
@@ -78,6 +77,16 @@ const reducer = (state = initialState, action = {} as AnyAction) => {
           pending: false,
           error: action.payload,
           success: false,
+        },
+      };
+    case STREAMERS_ACTION_TYPES.ADD_STREAMER:
+      return {
+        ...state,
+        streamers: [...state.streamers, action.payload],
+        request: {
+          pending: false,
+          error: null,
+          success: true,
         },
       };
     case STREAMERS_ACTION_TYPES.VOTE_FOR_STREAMER:

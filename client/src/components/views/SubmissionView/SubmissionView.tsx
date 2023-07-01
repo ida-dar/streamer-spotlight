@@ -20,6 +20,7 @@ const SubmissionView = () => {
   };
 
   const [formFields, setFormFields] = useState(defaultForm);
+  const [submited, setSubmited] = useState(false);
   const [error, setError] = useState(errors);
   const { name, platform, description } = formFields;
 
@@ -34,6 +35,7 @@ const SubmissionView = () => {
       valid: true,
       error: '',
     });
+    setSubmited(false);
   };
 
   const submitForm = async (e: any) => {
@@ -53,6 +55,7 @@ const SubmissionView = () => {
         description,
       };
       dispatch(postStreamer(streamer));
+      setSubmited(true);
       resetValues();
     } catch (e) {
       setError({
@@ -66,7 +69,7 @@ const SubmissionView = () => {
     <>
       <Paper elevation={1} sx={{ mt: 4, mb: 4, mx: 'auto', p: 1, maxWidth: 650 }}>
         {!error.valid && <Alert severity="error">{error.error}</Alert>}
-        {error.valid && <Alert severity="success">Submitted successfully</Alert>}
+        {error.valid && submited && <Alert severity="success">Submitted successfully</Alert>}
         <Box
           onSubmit={submitForm}
           component="form"
@@ -80,8 +83,10 @@ const SubmissionView = () => {
           <FormControl sx={{ m: 1, minWidth: 300 }}>
             <InputLabel id="demo-simple-select-label">Platform</InputLabel>
             <Select labelId="demo-simple-select-label" id="demo-simple-select" name="platform" value={platform} label="Platform" onChange={handleChange}>
-              {streamingPlatforms.map((el) => (
-                <MenuItem value={el}>{el}</MenuItem>
+              {streamingPlatforms.map((el, i) => (
+                <MenuItem value={el} key={i}>
+                  {el}
+                </MenuItem>
               ))}
             </Select>
           </FormControl>

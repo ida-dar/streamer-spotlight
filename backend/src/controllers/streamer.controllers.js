@@ -1,5 +1,10 @@
 const Streamer = require('../models/streamer.model');
 
+const VOTE_KINDS = Object.freeze({
+  UPVOTE: 'UPVOTE',
+  DOWNVOTE: 'DOWNVOTE'
+})
+
 // url: /streamers
 exports.getAll = async (req, res) => {
   try {
@@ -22,40 +27,44 @@ exports.getOneById = async (req, res) => {
   }
 };
 
-// url: /streamer
+// url: /streamers
 exports.postOne = async (req, res) => {
-  const { name, platform, description, votes } = req.body;
-
-  console.log(req.body);
+  const { name, platform, description, upvotes, downvotes } = req.body;
 
   try {
     const newStreamer = new Streamer({
       name,
       platform,
       description,
-      votes
+      upvotes,
+      downvotes
     });
 
-    console.log(newStreamer);
     await newStreamer.save();
-    res.json({ message: 'OK' });
+    res.json({ message: 'OK', data: newStreamer });
   }
   catch(err) {
-    console.log(err);
     res.status(500).json({ message: err });
   }
 };
 
 // url: /streamers/:id/vote
 exports.putVoteById = async (req, res) => {
+  const { voteKind } = req.body
+
   try {
     const streamer = await Streamer.findById(req.params.id);
-    console.log(streamer, req.params.id);
-    if(streamer) {
 
-      await Streamer.updateOne({ _id: req.params.id }, { $set: {
-        votes: streamer.votes + 1
-      }});
+    if(streamer && voteKind) {
+      if (voteKind === VOTE_KINDS.UPVOTE) {
+        await Streamer.updateOne({ _id: req.params.id }, { $set: {
+          upvotes: streamer.upvotes + 1
+        }});
+      } else if (voteKind === VOTE_KINDS.DOWNVOTE) {
+        await Streamer.updateOne({ _id: req.params.id }, { $set: {
+          downvotes: streamer.downvotes - 1
+        }});
+      }
       const updated = await Streamer.findById(req.params.id);
       res.json(updated);
     }

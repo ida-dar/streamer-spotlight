@@ -3,5 +3,6 @@ export interface Streamer {
   name: string;
   platform: string;
   description: string;
-  votes: number;
+  upvotes: number;
+  downvotes: number;
 }
