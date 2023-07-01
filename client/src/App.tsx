@@ -5,12 +5,13 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { fetchStreamers } from './redux/streamers/streamersRedux';
 import { useAppDispatch } from './redux/reduxUtils/hooks';
 
-import { routes } from './utils/routes';
+import { routes, singleViewRoutes } from './utils/routes';
 
 // routes
 import MainLayout from './components/layout/MainLayout/MainLayout';
 import Home from './components/views/Home/Home';
 import StreamerRecords from './components/views/StreamersView/StreamersView';
+import StreamerDetails from './components/views/StreamerDetails/StreamerDetails';
 
 interface RoutesInterface {
   path: string;
@@ -25,6 +26,10 @@ const routing: RoutesInterface[] = [
   {
     path: routes.STREAMER_RECORDS.link,
     element: <StreamerRecords />,
+  },
+  {
+    path: singleViewRoutes.STREAMER_DETAILS.link,
+    element: <StreamerDetails />,
   },
 ];
 

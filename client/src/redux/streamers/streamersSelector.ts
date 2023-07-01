@@ -9,6 +9,8 @@ export const selectStreamersSlices = createSelector([selectStreamersReducer], (s
 
 export const streamersLoading = createSelector([selectStreamersReducer], (streamersSlice: any) => streamersSlice.request.pending);
 
+export const selectOneStreamer = createSelector([selectStreamersReducer], (streamersSlice: any) => streamersSlice.streamer);
+
 export const selectStreamers = createSelector(
   [selectStreamersReducer],
   (streamersSlice: { streamers: Streamer[]; request: any }) =>

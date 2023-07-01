@@ -8,3 +8,10 @@ export const routes = Object.freeze({
     link: '/records',
   },
 });
+
+export const singleViewRoutes = Object.freeze({
+  STREAMER_DETAILS: {
+    name: 'Streamer Details',
+    link: '/streamer/:id',
+  },
+});

@@ -1,12 +1,21 @@
 import axios from 'axios';
 import { AnyAction, Dispatch } from '@reduxjs/toolkit';
 import { StreamersState, STREAMERS_ACTION_TYPES } from '../actionTypes';
-import { fetchStreamersFail, fetchStreamersStart, setStreamers, addStreamer, voteForStreamer } from './streamersActions';
+import { fetchStreamersFail, fetchStreamersStart, setStreamers, addStreamer, voteForStreamer, setOneStreamer } from './streamersActions';
 import { API_URL } from '../reduxUtils/apiConfig';
 
 // state
 const initialState: StreamersState = {
   streamers: [],
+  streamer: {
+    _id: '',
+    name: '',
+    description: '',
+    platform: '',
+    imageUrl: '',
+    upvotes: 0,
+    downvotes: 0,
+  },
   request: {
     pending: false,
     error: null,
@@ -21,6 +30,17 @@ export const fetchStreamers = () => async (dispatch: Dispatch) => {
   try {
     const resp = await axios.get(`${API_URL}/streamers`);
     dispatch(setStreamers(resp.data));
+  } catch (e) {
+    dispatch(fetchStreamersFail(e));
+  }
+};
+
+export const fetchOneStreamer = (id: string) => async (dispatch: Dispatch) => {
+  dispatch(fetchStreamersStart());
+
+  try {
+    const resp = await axios.get(`${API_URL}/streamer/${id}`);
+    dispatch(setOneStreamer(resp.data));
   } catch (e) {
     dispatch(fetchStreamersFail(e));
   }
@@ -61,6 +81,16 @@ const reducer = (state = initialState, action = {} as AnyAction) => {
           success: true,
         },
       };
+    case STREAMERS_ACTION_TYPES.FETCH_ONE_STREAMER:
+      return {
+        ...state,
+        streamer: action.payload,
+        request: {
+          pending: false,
+          error: null,
+          success: true,
+        },
+      };
     case STREAMERS_ACTION_TYPES.FETCH_STREAMERS_START:
       return {
         ...state,
@@ -95,6 +125,7 @@ const reducer = (state = initialState, action = {} as AnyAction) => {
       return {
         ...state,
         streamers: state.streamers.map((item, index) => (index === idx ? streamer : item)),
+        streamer: streamer,
       };
     default:
       return state;
