@@ -40,6 +40,13 @@ const App = () => {
     dispatch(fetchStreamers());
   }, [dispatch]);
 
+  useEffect(() => {
+    // update streamers every 20 minutes
+    setInterval(() => {
+      dispatch(fetchStreamers());
+    }, 60 * 20 * 1000);
+  }, [dispatch]);
+
   return (
     <BrowserRouter>
       <MainLayout>

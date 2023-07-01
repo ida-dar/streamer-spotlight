@@ -1,9 +1,11 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-const mongoose = require('mongoose');
 const helmet = require('helmet');
 const socket = require('socket.io');
+const requestIp = require('request-ip');
+const connectToDB = require('./db');
+const mongoose = require('mongoose');
 
 const app = express();
 
@@ -12,6 +14,7 @@ const streamerRoutes = require('./src/routes/streamer.routes');
 
 app.use((req, res, next) => {
   req.io = io;
+  req.clientIp = requestIp.getClientIp(req);
   next();
 });
 
@@ -20,37 +23,27 @@ app.use(helmet());
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+// Request user's IP address.
+// Will be used to check if user already voted for a streamer. This can be replaced later on by introducing login functionality
+app.use(requestIp.mw());
+
 app.use('/api', streamerRoutes);
 
+
 // Serve static files from the React app
-app.use(express.static(path.join(__dirname, './client/build')));
+app.use(express.static(path.join(__dirname, '../client/build')));
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, './client/build/index.html'));
+  res.sendFile(path.join(__dirname, '../client/build/index.html'));
 });
 
 app.use((req, res) => {
   res.status(404).json({ message: 'Not found...' });
 });
 
-
-const NODE_ENV = process.env.NODE_ENV;
-let dbUrl = '';
-const username = process.env.MONGO_USER;
-const password = process.env.MONGO_PASS;
-
 // DB
-if(NODE_ENV === 'production') dbUrl = `mongodb+srv://${username}:${password}@cluster0.pw3m4.mongodb.net/StreamerSpotlight?retryWrites=true&w=majority`;
-else if (NODE_ENV === 'test') dbUrl = 'mongodb://localhost:27017/StreamerSpotlightTest';
-else dbUrl = 'mongodb://localhost:27017/StreamerSpotlight';
-
-mongoose.connect(dbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
-const db = mongoose.connection;
-
-db.once('open', () => {
-  console.log('Connected to the database');
-});
-db.on('error', err => console.log('Error ' + err));
+connectToDB()
 
 const server = app.listen(process.env.PORT || 8000, () => {
   console.log('Server is running on port: 8000');
@@ -61,5 +54,5 @@ module.exports = server;
 const io = socket(server);
 
 io.on('connection', (socket) => {
-  console.log(`New socket, it's id: ${socket.id}`);
+  // console.log(`New socket, it's id: ${socket.id}`);
 });

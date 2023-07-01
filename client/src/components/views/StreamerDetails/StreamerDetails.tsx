@@ -40,7 +40,7 @@ const StreamerDetails = () => {
 
   return (
     <Card sx={{ minWidth: 325, minHeight: 375, m: 4, mx: 'auto' }} key={streamer._id}>
-      <CardMedia component="img" height="325" image={imageUrl} alt="Paella dish" />
+      <CardMedia component="img" height="325" image={imageUrl} alt={streamer.name} />
       <CardContent>
         <Typography variant="h5" component="div" gutterBottom>
           {streamer.name}

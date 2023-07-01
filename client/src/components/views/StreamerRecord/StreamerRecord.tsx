@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Socket, io } from 'socket.io-client';
-import { Box, Card, CardActionArea, CardContent, IconButton, Typography } from '@mui/material';
+import { Alert, Box, Card, CardActionArea, CardContent, IconButton, Typography } from '@mui/material';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 
 import { useAppDispatch, useAppSelector } from '../../../redux/reduxUtils/hooks';
-import { selectStreamers, streamersLoading } from '../../../redux/streamers/streamersSelector';
+import { selectStreamers, streamersRequests } from '../../../redux/streamers/streamersSelector';
 import { fetchStreamers, postVoteForStreamer } from '../../../redux/streamers/streamersRedux';
 
 import { Streamer } from '../../../interfaces/streamer.interface';
@@ -20,7 +20,7 @@ import { voteForStreamer } from '../../../redux/streamers/streamersActions';
 
 const StreamerRecord = () => {
   const streamers = useAppSelector<Streamer[]>(selectStreamers);
-  const pending = useAppSelector(streamersLoading);
+  const request = useAppSelector(streamersRequests);
   const dispatch = useAppDispatch();
 
   let socket: Socket<ClientToServerEvents> = io();
@@ -41,7 +41,7 @@ const StreamerRecord = () => {
 
   return (
     <>
-      {pending ? (
+      {request.pending ? (
         <Loader />
       ) : (
         <Box sx={{ display: 'flex', justifyContent: 'center', alignContent: 'space-between', flexWrap: 'wrap', m: 1 }}>
@@ -69,6 +69,7 @@ const StreamerRecord = () => {
                     </IconButton>
                     : {el.downvotes}
                   </Typography>
+                  {request.error && request.error.message === 'User already voted' && request.error.streamerId === el._id && <Alert severity="error">You already voted for this streamer</Alert>}
                 </CardContent>
               </Card>
             ))}

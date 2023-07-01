@@ -104,7 +104,7 @@ const reducer = (state = initialState, action = {} as AnyAction) => {
         ...state,
         request: {
           pending: false,
-          error: action.payload,
+          error: action.payload.response.data || action.payload,
           success: false,
         },
       };
