@@ -25,9 +25,8 @@ const initialState: StreamersState = {
 
 // reducer
 export const fetchStreamers = () => async (dispatch: Dispatch) => {
-  dispatch(fetchStreamersStart());
-
   try {
+    dispatch(fetchStreamersStart());
     const resp = await axios.get(`${API_URL}/streamers`);
     dispatch(setStreamers(resp.data));
   } catch (e) {

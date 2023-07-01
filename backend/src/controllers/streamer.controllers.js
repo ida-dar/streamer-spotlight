@@ -41,6 +41,7 @@ exports.postOne = async (req, res) => {
     });
 
     await newStreamer.save();
+    req.io.emit("streamerAdded", newStreamer);
     res.json({ message: 'OK', data: newStreamer });
   }
   catch(err) {
@@ -66,6 +67,7 @@ exports.putVoteById = async (req, res) => {
         }});
       }
       const updated = await Streamer.findById(req.params.id);
+      req.io.emit("votesUpdated", updated);
       res.json(updated);
     }
     else res.status(404).json({ message: 'Not found...' });

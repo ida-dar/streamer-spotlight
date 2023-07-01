@@ -1,23 +1,35 @@
 import { useEffect } from 'react';
+import { Socket, io } from 'socket.io-client';
+import { useParams } from 'react-router-dom';
+
 import { Card, CardContent, Typography, IconButton, CardMedia } from '@mui/material';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 
 import { Streamer } from '../../../interfaces/streamer.interface';
+import { ClientToServerEvents } from '../../../interfaces/clientWebsocket.interface';
+
 import { useAppDispatch, useAppSelector } from '../../../redux/reduxUtils/hooks';
 import { selectOneStreamer } from '../../../redux/streamers/streamersSelector';
+import { voteForStreamer } from '../../../redux/streamers/streamersActions';
 import { fetchOneStreamer, postVoteForStreamer } from '../../../redux/streamers/streamersRedux';
 import { VOTE_KINDS } from '../../../utils/voteKinds';
-import { useParams } from 'react-router-dom';
 
 const StreamerDetails = () => {
   const dispatch = useAppDispatch();
   const streamer = useAppSelector<Streamer>(selectOneStreamer);
   const { id } = useParams<string>();
 
+  let socket: Socket<ClientToServerEvents> = io();
+
   useEffect(() => {
     const streamerId = id as string;
     dispatch(fetchOneStreamer(streamerId));
+  }, [dispatch]);
+
+  useEffect(() => {
+    socket = io(process.env.NODE_ENV === 'production' ? '' : 'localhost:8000', { transports: ['websocket'] });
+    socket.on('votesUpdated', (streamer: Streamer) => dispatch(voteForStreamer(streamer)));
   }, [dispatch]);
 
   const vote = (id: string, voteKind: string) => {
