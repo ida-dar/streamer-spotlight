@@ -29,7 +29,7 @@ const StreamerDetails = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    socket = io(process.env.NODE_ENV === 'production' ? '' : 'localhost:8000', { transports: ['websocket'] });
+    socket = io(process.env.NODE_ENV === 'production' ? process.env.PUBLIC_URL : 'localhost:8000', { transports: ['websocket'] });
     socket.on('votesUpdated', (streamer: Streamer) => dispatch(voteForStreamer(streamer)));
   }, [dispatch]);
 
@@ -42,7 +42,7 @@ const StreamerDetails = () => {
   return (
     <>
       <Helmet>
-        <title>Stremaer deatils</title>
+        <title>Streamer deatils</title>
         <meta name="description" content="This page shows details of a selected streamer." />
       </Helmet>
       <Card sx={{ minWidth: 325, minHeight: 375, m: 4, mx: 'auto' }} key={streamer._id}>

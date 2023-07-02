@@ -31,19 +31,19 @@ const StreamerRecord = () => {
   };
 
   useEffect(() => {
-    socket = io(process.env.NODE_ENV === 'production' ? '' : 'localhost:8000', { transports: ['websocket'] });
+    socket = io(process.env.NODE_ENV === 'production' ? process.env.PUBLIC_URL : 'localhost:8000', { transports: ['websocket'] });
     socket.on('streamerAdded', (): any => dispatch(fetchStreamers()));
   }, [dispatch]);
 
   useEffect(() => {
-    socket = io(process.env.NODE_ENV === 'production' ? '' : 'localhost:8000', { transports: ['websocket'] });
+    socket = io(process.env.NODE_ENV === 'production' ? process.env.PUBLIC_URL : 'localhost:8000', { transports: ['websocket'] });
     socket.on('votesUpdated', (streamer: Streamer) => dispatch(voteForStreamer(streamer)));
   }, [dispatch]);
 
   return (
     <>
       <Helmet>
-        <title>Stremaer records</title>
+        <title>Streamer records</title>
         <meta name="description" content="This page shows records of submited streamers." />
       </Helmet>
       {request.pending ? (
