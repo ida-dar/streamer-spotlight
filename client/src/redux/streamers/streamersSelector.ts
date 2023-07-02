@@ -9,9 +9,12 @@ export const streamersRequests = createSelector([selectStreamersReducer], (strea
 
 export const selectOneStreamer = createSelector([selectStreamersReducer], (streamersSlice: any) => streamersSlice.streamer);
 
-export const selectStreamers = createSelector([selectStreamersReducer], (streamersSlice: { streamers: Streamer[]; request: any }) =>
-  streamersSlice?.streamers?.reduce((acc: any, el: Streamer) => {
-    acc.push(el);
-    return acc;
-  }, [])
+export const selectStreamers = createSelector(
+  [selectStreamersReducer],
+  (streamersSlice: { streamers: Streamer[] }) =>
+    streamersSlice?.streamers &&
+    streamersSlice?.streamers?.reduce((acc: any, el: Streamer) => {
+      acc.push(el);
+      return acc;
+    }, [])
 );

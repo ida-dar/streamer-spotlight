@@ -21,7 +21,7 @@ import { voteForStreamer } from '../../../redux/streamers/streamersActions';
 
 const StreamerRecord = () => {
   const streamers = useAppSelector<Streamer[]>(selectStreamers);
-  const request = useAppSelector(streamersRequests);
+  const request = useAppSelector<any>(streamersRequests);
   const dispatch = useAppDispatch();
 
   let socket: Socket<ClientToServerEvents> = io();
@@ -31,12 +31,12 @@ const StreamerRecord = () => {
   };
 
   useEffect(() => {
-    socket = io(process.env.NODE_ENV === 'production' ? process.env.PUBLIC_URL : 'localhost:8000', { transports: ['websocket'] });
+    socket = io(process.env.NODE_ENV === 'production' ? '' : 'localhost:8000', { transports: ['websocket'] });
     socket.on('streamerAdded', (): any => dispatch(fetchStreamers()));
   }, [dispatch]);
 
   useEffect(() => {
-    socket = io(process.env.NODE_ENV === 'production' ? process.env.PUBLIC_URL : 'localhost:8000', { transports: ['websocket'] });
+    socket = io(process.env.NODE_ENV === 'production' ? '' : 'localhost:8000', { transports: ['websocket'] });
     socket.on('votesUpdated', (streamer: Streamer) => dispatch(voteForStreamer(streamer)));
   }, [dispatch]);
 

@@ -6,7 +6,7 @@ import { streamersRequests } from '../../../redux/streamers/streamersSelector';
 
 const SubmissionView = () => {
   const dispatch = useAppDispatch();
-  const request = useAppSelector(streamersRequests);
+  const request = useAppSelector<any>(streamersRequests);
 
   const streamingPlatforms = ['Twitch', 'YouTube', 'TikTok', 'Kick', 'Rumble'];
 
