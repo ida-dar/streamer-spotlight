@@ -59,47 +59,47 @@ exports.putVoteById = async (req, res) => {
     const streamer = await Streamer.findById(paramsId);
     const voter = await Voter.findOne({ user: ip })
 
-    if (!streamer || !voteKind) res.status(404).json({ message: 'Not found...' });
+    if (streamer && voteKind) {
+      const streamerId = streamer._id;
 
-    const streamerId = streamer._id;
+      if (await Voter.findOne({ user: ip, votes: streamerId })){
+        res.status(400).json({ message: 'User already voted', streamerId: streamerId });
+        return
+      }
 
-    if (await Voter.findOne({ user: ip, votes: streamerId })){
-      res.status(500).json({ message: 'User already voted', streamerId: streamerId });
-      return
-    }
+      // vote for streamer
+      if (voteKind === VOTE_KINDS.UPVOTE) {
+        await Streamer.updateOne(
+          { _id: streamerId },
+          {
+            $set: {
+              upvotes: streamer.upvotes + 1,
+            },
+          }
+        );
+      } else if (voteKind === VOTE_KINDS.DOWNVOTE) {
+        await Streamer.updateOne(
+          { _id: streamerId },
+          {
+            $set: {
+              downvotes: streamer.downvotes - 1,
+            },
+          }
+        );
+      }
+      if (!voter) {
+        const newVoter = new Voter({ user: ip, votes: [ streamerId ] });
+        await newVoter.save();
+      } else {
+        await Voter.updateOne({ user: ip }, { $push: { votes: streamerId } });
+      }
+      const updated = await Streamer.findById(streamerId);
 
-    // vote for streamer
-    if (voteKind === VOTE_KINDS.UPVOTE) {
-      await Streamer.updateOne(
-        { _id: paramsId },
-        {
-          $set: {
-            upvotes: streamer.upvotes + 1,
-          },
-        }
-      );
-    } else if (voteKind === VOTE_KINDS.DOWNVOTE) {
-      await Streamer.updateOne(
-        { _id: paramsId },
-        {
-          $set: {
-            downvotes: streamer.downvotes - 1,
-          },
-        }
-      );
-    }
-    if (!voter) {
-      const newVoter = new Voter({ user: ip, votes: [ streamerId ] });
-      await newVoter.save();
+      io.emit('votesUpdated', updated);
+      res.status(200).json(updated);
     } else {
-      await Voter.updateOne({ user: ip }, { $push: { votes: streamerId } });
+      res.status(404).json({ message: 'Not found...' })
     }
-    const updated = await Streamer.findById(streamerId);
-
-    console.log('updated');
-
-    io.emit('votesUpdated', updated);
-    res.json(updated);
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: err });

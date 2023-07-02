@@ -9,22 +9,26 @@
     "build": "cd ../client && npm install && npm run build",
     "netlify:build": "cd ../client && npm install && CI=false npm run build",
     "test": "snyk test && set NODE_ENV=test&& mocha \"./{,!(node_modules|client)/**/}*.test.js\" --timeout 4000",
-    "test:watch": "onchange \"./**/*.js\" -i -k -- yarn test"
+    "test:watch": "onchange \"./**/*.js\" -i -k -- npm test"
   },
   "dependencies": {
+    "chai": "^4.3.7",
+    "chai-http": "^4.4.0",
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "helmet": "^7.0.0",
+    "mocha": "^10.2.0",
+    "mongo-sanitize": "^1.1.0",
     "mongodb": "^5.6.0",
     "mongoose": "^7.3.1",
     "onchange": "^7.1.0",
     "request-ip": "^3.3.0",
-    "snyk": "^1.1184.0",
     "socket.io": "^4.7.1",
     "uuid": "^9.0.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.22",
-    "prettier": "2.8.8"
+    "prettier": "2.8.8",
+    "snyk": "^1.1184.0"
   }
 }
