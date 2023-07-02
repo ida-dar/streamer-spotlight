@@ -7,6 +7,7 @@
   "scripts": {
     "start": "nodemon server.js",
     "build": "cd ../client && npm install && npm run build",
+    "netlify:build": "cd ../client && npm install && CI=false npm run build",
     "test": "snyk test && set NODE_ENV=test&& mocha \"./{,!(node_modules|client)/**/}*.test.js\" --timeout 4000",
     "test:watch": "onchange \"./**/*.js\" -i -k -- yarn test"
   },
