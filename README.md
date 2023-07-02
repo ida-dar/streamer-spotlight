@@ -1,15 +1,20 @@
 # streamer-spotlight
 It is a simple streamer spotlight application where users can add their favorite streamers along with some relevant details.
 Other users can then upvote or downvote these streamers.
+You may vote for only one streamer from one device.
 
-Available pages:
+For more clarity I decided to create separate folders for backend and frontend.
+
+#### Available pages
 * Home - app description;
 * Streamer records - where you may submit streamer for voting and vote for other streamers;
 * Streamer details - where you may read more about submitted streamer.
 
-You may vote for only one streamer from one device.
-
-For more clarity I decided to create separate folders for backend and frontend.
+#### Available endpoints
+* POST /streamers: An endpoint to receive new streamer submissions from the frontend and store them in a database.
+* GET /streamers: An endpoint to return all the stored streamer submissions in response to a request from the frontend.
+* GET /streamer/:id: An endpoint to return data about a specific streamer.
+* PUT /streamers/:id/vote: An endpoint to receive an upvote for a specific streamer and update their current upvote/downvote count.
 
 ### Possible improvements and new features
 * modifying redux to use saga;
@@ -17,7 +22,8 @@ For more clarity I decided to create separate folders for backend and frontend.
 * add tests to FE with e.g. react-testing-library or jest;
 * login functionality, e.g. with OAuth and passport;
 * image functionality - image upload for every streamer;
-* modifying file structure if project grows for more clarity or moving backend to a separate repo.
+* modifying file structure if project grows for more clarity or moving backend to a separate repo;
+* migrating express to nest.js.
 
 Initially, I wanted to deploy the app on Netlify, however due to some technical issues and set deadline I've decided to postpone it.
 I plan to deploy the app later on with AWS (backend with AWS Lambda, frontend with AWS Amplify).
