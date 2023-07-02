@@ -1,5 +1,6 @@
 const Streamer = require('../models/Streamer.model');
 const Voter = require('../models/Voter.model');
+const { sanitize } = require('express-mongo-sanitize');
 
 const VOTE_KINDS = Object.freeze({
   UPVOTE: 'UPVOTE',
@@ -31,17 +32,30 @@ exports.postOne = async (req, res) => {
   const { name, platform, description, upvotes, downvotes } = req.body;
   const io = req.io;
 
+  const cleanStreamer = {
+    // I did not sanitaze the name as some streamers names may contain special characters
+    platform: await sanitize(platform),
+    description: await sanitize(description, {allowDots: true}),
+  }
+
   try {
+
+    if (!name || !platform || !description) {
+      res.status(400).json({ message: 'Unsufficient data provided' });
+      return
+    }
+
     const newStreamer = new Streamer({
       name,
-      platform,
-      description,
+      ...cleanStreamer,
       upvotes,
       downvotes,
     });
 
     await newStreamer.save();
+
     io.emit('streamerAdded', newStreamer);
+
     res.json({ message: 'OK', data: newStreamer });
   } catch (err) {
     res.status(500).json({ message: err });
@@ -87,6 +101,7 @@ exports.putVoteById = async (req, res) => {
           }
         );
       }
+
       if (!voter) {
         const newVoter = new Voter({ user: ip, votes: [ streamerId ] });
         await newVoter.save();

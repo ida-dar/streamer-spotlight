@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { MenuItem, Box, TextField, FormControl, InputLabel, Select, Paper, Typography, Button, Alert } from '@mui/material';
-import { useAppDispatch } from '../../../redux/reduxUtils/hooks';
+import { useAppDispatch, useAppSelector } from '../../../redux/reduxUtils/hooks';
 import { postStreamer } from '../../../redux/streamers/streamersRedux';
+import { streamersRequests } from '../../../redux/streamers/streamersSelector';
 
 const SubmissionView = () => {
   const dispatch = useAppDispatch();
+  const request = useAppSelector(streamersRequests);
 
   const streamingPlatforms = ['Twitch', 'YouTube', 'TikTok', 'Kick', 'Rumble'];
 
@@ -68,7 +70,7 @@ const SubmissionView = () => {
   return (
     <>
       <Paper elevation={1} sx={{ mt: 4, mb: 4, mx: 'auto', p: 1, maxWidth: 650 }}>
-        {!error.valid && <Alert severity="error">{error.error}</Alert>}
+        {(!error.valid || request.error) && <Alert severity="error">{error.error || request.error.message}</Alert>}
         {error.valid && submited && <Alert severity="success">Submitted successfully</Alert>}
         <Box
           onSubmit={submitForm}
