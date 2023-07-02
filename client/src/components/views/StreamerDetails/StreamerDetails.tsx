@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { Socket, io } from 'socket.io-client';
 import { useParams } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 
 import { Card, CardContent, Typography, IconButton, CardMedia } from '@mui/material';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
@@ -39,28 +40,34 @@ const StreamerDetails = () => {
   const imageUrl = 'https://static-cdn.jtvnw.net/jtv_user_pictures/asmongold-profile_image-f7ddcbd0332f5d28-300x300.png';
 
   return (
-    <Card sx={{ minWidth: 325, minHeight: 375, m: 4, mx: 'auto' }} key={streamer._id}>
-      <CardMedia component="img" height="325" image={imageUrl} alt={streamer.name} />
-      <CardContent>
-        <Typography variant="h5" component="div" gutterBottom>
-          {streamer.name}
-        </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          Platform: {streamer.platform}
-        </Typography>
-        <Typography>
-          <IconButton aria-label="upvote" onClick={() => vote(streamer._id, VOTE_KINDS.UPVOTE)}>
-            <ThumbUpIcon />
-          </IconButton>
-          : {streamer.upvotes}{' '}
-          <IconButton aria-label="downvote" onClick={() => vote(streamer._id, VOTE_KINDS.DOWNVOTE)}>
-            <ThumbDownIcon />
-          </IconButton>
-          : {streamer.downvotes}
-        </Typography>
-        <Typography sx={{ my: 1.5 }}>{streamer.description}</Typography>
-      </CardContent>
-    </Card>
+    <>
+      <Helmet>
+        <title>Stremaer deatils</title>
+        <meta name="description" content="This page shows details of a selected streamer." />
+      </Helmet>
+      <Card sx={{ minWidth: 325, minHeight: 375, m: 4, mx: 'auto' }} key={streamer._id}>
+        <CardMedia component="img" height="325" image={imageUrl} alt={streamer.name} />
+        <CardContent>
+          <Typography variant="h5" component="div" gutterBottom>
+            {streamer.name}
+          </Typography>
+          <Typography sx={{ mb: 1.5 }} color="text.secondary">
+            Platform: {streamer.platform}
+          </Typography>
+          <Typography>
+            <IconButton aria-label="upvote" onClick={() => vote(streamer._id, VOTE_KINDS.UPVOTE)}>
+              <ThumbUpIcon />
+            </IconButton>
+            : {streamer.upvotes}{' '}
+            <IconButton aria-label="downvote" onClick={() => vote(streamer._id, VOTE_KINDS.DOWNVOTE)}>
+              <ThumbDownIcon />
+            </IconButton>
+            : {streamer.downvotes}
+          </Typography>
+          <Typography sx={{ my: 1.5 }}>{streamer.description}</Typography>
+        </CardContent>
+      </Card>
+    </>
   );
 };
 

@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 import { Socket, io } from 'socket.io-client';
 import { Alert, Box, Card, CardActionArea, CardContent, IconButton, Typography } from '@mui/material';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
@@ -41,6 +42,10 @@ const StreamerRecord = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Stremaer records</title>
+        <meta name="description" content="This page shows records of submited streamers." />
+      </Helmet>
       {request.pending ? (
         <Loader />
       ) : (
