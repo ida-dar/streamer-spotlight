@@ -116,7 +116,6 @@ exports.putVoteById = async (req, res) => {
       res.status(404).json({ message: 'Not found...' })
     }
   } catch (err) {
-    console.log(err);
     res.status(500).json({ message: err });
   }
 };
