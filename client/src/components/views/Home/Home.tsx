@@ -16,21 +16,22 @@ const Home = () => {
       <Divider />
       <Typography variant="body1" sx={{ my: 4 }} color="text.secondary">
         There are two pages available:
-        <List>
-          <ListItem disablePadding>
-            <ListItemIcon>
-              <NewspaperIcon />
-            </ListItemIcon>
-            <ListItemText>Streamer record - where you may submit streamer for voting and vote for other streamers;</ListItemText>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemIcon>
-              <DetailsIcon />
-            </ListItemIcon>
-            <ListItemText>Streamer details - where you may read more about submitted streamer.</ListItemText>
-          </ListItem>
-        </List>
       </Typography>
+      <List>
+        <ListItem disablePadding>
+          <ListItemIcon>
+            <NewspaperIcon />
+          </ListItemIcon>
+          <ListItemText>Streamer record - where you may submit streamer for voting and vote for other streamers;</ListItemText>
+        </ListItem>
+        <ListItem disablePadding>
+          <ListItemIcon>
+            <DetailsIcon />
+          </ListItemIcon>
+          <ListItemText>Streamer details - where you may read more about submitted streamer.</ListItemText>
+        </ListItem>
+      </List>
+
       <Divider />
       <Typography variant="body1" sx={{ m: 2 }}>
         You may vote for only one streamer from one device.

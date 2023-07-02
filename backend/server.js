@@ -5,7 +5,6 @@ const helmet = require('helmet');
 const socket = require('socket.io');
 const requestIp = require('request-ip');
 const connectToDB = require('./db');
-const mongoose = require('mongoose');
 
 const app = express();
 
