@@ -54,5 +54,6 @@ module.exports = server;
 const io = socket(server);
 
 io.on('connection', (socket) => {
+  // uncomment the line below to control socket connection
   // console.log(`New socket, it's id: ${socket.id}`);
 });
