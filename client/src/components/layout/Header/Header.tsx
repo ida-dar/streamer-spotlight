@@ -2,17 +2,10 @@ import { useState } from 'react';
 import { AppBar, Box, Toolbar, IconButton, Typography, Menu, Container, Button, MenuItem } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { routes } from '../../../utils/routes';
+import setAnchor from './setAnchor';
 
 const Header = () => {
-  const [anchorElNav, setAnchorElNav] = useState(null);
-
-  const handleOpenNavMenu = (e: any) => {
-    setAnchorElNav(e.currentTarget);
-  };
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
+  const { anchorElNav, handleOpenNavMenu, handleCloseNavMenu } = setAnchor();
 
   return (
     <AppBar position="static" sx={{ m: 0, p: 0 }}>

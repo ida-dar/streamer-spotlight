@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const StreamerController = require('../controllers/streamer.controllers');
+const StreamerController = require('./streamer.controllers');
 
 // GET
 router.get('/streamers', StreamerController.getAll);

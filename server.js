@@ -9,7 +9,7 @@ const connectToDB = require('./db');
 const app = express();
 
 // import routes
-const streamerRoutes = require('./src/routes/streamer.routes');
+const streamerRoutes = require('./src/streamer/streamer.routes');
 
 app.use((req, res, next) => {
   req.io = io;

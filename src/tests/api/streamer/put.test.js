@@ -1,8 +1,8 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const server = require('../../../../server');
-const Streamer = require('../../../models/Streamer.model');
-const Voter = require('../../../models/Voter.model');
+const Streamer = require('../../../streamer/Streamer.model');
+const Voter = require('../../../voter/Voter.model');
 
 chai.use(chaiHttp);
 

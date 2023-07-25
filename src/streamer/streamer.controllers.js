@@ -1,5 +1,5 @@
-const Streamer = require('../models/Streamer.model');
-const Voter = require('../models/Voter.model');
+const Streamer = require('./Streamer.model');
+const Voter = require('../voter/Voter.model');
 const { sanitize } = require('express-mongo-sanitize');
 
 const VOTE_KINDS = Object.freeze({
