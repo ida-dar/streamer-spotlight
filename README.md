@@ -64,12 +64,12 @@ I plan to deploy the app later on with AWS (backend with AWS Lambda, frontend wi
 ## Previews
 Home page:
 <br>
-<img src="https://github.com/ida-dar/streamer-spotlight/assets/81257123/34ca4390-bd8d-412d-84c8-cf84e61d5b84" width="250" />
+<img src="https://github.com/ida-dar/streamer-spotlight/assets/81257123/a73f7427-7803-4e05-8ec3-cf454d26c1aa" width="250" />
 
 Streamer Records:
 <br>
-<img src="https://github.com/ida-dar/streamer-spotlight/assets/81257123/90db410f-75e8-4da4-b61f-7d4844e140e5" width="250" />
+<img src="https://github.com/ida-dar/streamer-spotlight/assets/81257123/482dd2ad-9bf1-4276-a175-b8023611a629" width="250" />
 
 Streamer Details:
 <br>
-<img src="https://github.com/ida-dar/streamer-spotlight/assets/81257123/56ea985d-77bf-45f8-9cd0-937ed086f5c1" width="250" />
+<img src="https://github.com/ida-dar/streamer-spotlight/assets/81257123/958110a9-295a-4155-a171-680c414df096" width="250" />
