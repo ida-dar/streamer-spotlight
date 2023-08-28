@@ -9,7 +9,7 @@ const connectToDB = () => {
   // DB
   if (NODE_ENV === 'production') dbUrl = `mongodb+srv://${username}:${password}@cluster0.pw3m4.mongodb.net/StreamerSpotlight?retryWrites=true&w=majority`;
   else if (NODE_ENV === 'test') dbUrl = 'mongodb://localhost:27017/StreamerSpotlightTest';
-  else dbUrl = 'mongodb://localhost:27017/StreamerSpotlight';
+  else dbUrl = 'mongodb://streamer-spotlight-mongodb:27017/StreamerSpotlight';
 
   mongoose.connect(dbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
   const db = mongoose.connection;

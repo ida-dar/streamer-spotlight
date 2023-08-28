@@ -1,0 +1,37 @@
+version: '3' # version of docker compose
+services:
+  frontend:
+    build:
+      context: .  # Use the current directory as the build context
+      dockerfile: ./Dockerfile
+    ports:
+      - "3000:8000"  # Map host port 3000 to container port 8000 for the backend
+    volumes:
+      - .:/usr/app  # Mount the current directory as a volume to the container
+    working_dir: /usr/app/client  # Set working directory to 'client' folder
+    command: npm start  # Start the React frontend server
+    restart: on-failure # Restart on failure
+    container_name: streamer-spotlight-frontend
+
+  backend:
+    build:
+      context: .  # Use the current directory as the build context
+      dockerfile: ./Dockerfile
+    ports:
+      - "8000:8000"  # Map host port 8000 to container port 8000 for the backend
+    volumes:
+      - .:/usr/app  # Mount the current directory as a volume to the container
+    working_dir: /usr/app  # Set working directory to the root directory
+    command: npm start  # Start the Express backend server
+    restart: on-failure # Restart on failure
+    container_name: streamer-spotlight-backend
+    depends_on:
+      - mongodb
+
+  mongodb:
+    image: mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    container_name: streamer-spotlight-mongodb
+
